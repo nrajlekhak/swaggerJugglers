@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Postman Collection
         run: |
-            newman  run ${{secrets.COLLECTION_URL}} -e ${{secrets.DEV_ENVIRONMENT_URL}}  --suppress-exit-code -x -r slackmsg,htmlextra --reporter-htmlextra-export testArtifacts/htmlreport.html --reporter-slackmsg-webhookurl ${{secrets.SLACK_WEBHOOK_URL}}
+            newman  run SwaggerJugglers.postman_collection.json -e environment.json  --suppress-exit-code -x -r slackmsg,htmlextra --reporter-htmlextra-export testArtifacts/htmlreport.html --reporter-slackmsg-webhookurl ${{secrets.SLACK_WEBHOOK_URL}}
           
       # Upload the reports to TestArtifact directory
       - name: Output the results
