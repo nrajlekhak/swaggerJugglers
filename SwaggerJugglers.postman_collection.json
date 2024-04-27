@@ -1,0 +1,1173 @@
+{
+	"info": {
+		"_postman_id": "604d3c48-3118-4bf7-8632-7960d04da5f9",
+		"name": "SwaggerJugglers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23101546",
+		"_collection_link": "https://swaggerjugglers.postman.co/workspace/822ca350-ac9a-4fb3-b295-dc3adaf6bff5/collection/23315722-604d3c48-3118-4bf7-8632-7960d04da5f9?action=share&source=collection_link&creator=23101546"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "API Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Setting auth token in the collection variable\r",
+									"const responseJson = pm.response.json();\r",
+									"pm.collectionVariables.set('token', responseJson.id_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/access-token?clientId=815628501564-nhjr0bpdqo9oe3499pvg3m7lnmb6l3dg.apps.googleusercontent.com&clientSecret=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&redirectUrl=https://elevate.intranet.lftechnology.com/auth/google/callback",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"access-token"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "815628501564-nhjr0bpdqo9oe3499pvg3m7lnmb6l3dg.apps.googleusercontent.com"
+								},
+								{
+									"key": "clientSecret",
+									"value": "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"
+								},
+								{
+									"key": "redirectUrl",
+									"value": "https://elevate.intranet.lftechnology.com/auth/google/callback"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Story 3",
+			"item": [
+				{
+					"name": "Upload PDF File",
+					"item": [
+						{
+							"name": "Positive Case",
+							"item": [
+								{
+									"name": "Should Upload PDF file with no errors when all fields are filled",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"// the api should return 200 response",
+													"pm.test('Should return 200 response', () => {",
+													"    pm.response.to.have.status(200);",
+													" });",
+													"",
+													"// the api response message should be `Annotations found`",
+													"pm.test('should respnond with annotations found', () => {",
+													"    pm.expect(pm.response.json().message).to.include('Annotations found');",
+													"});",
+													"",
+													"",
+													"",
+													"// the annotations fielss should not be empty",
+													"pm.test('annotations should all required fields', () => {",
+													"",
+													"    const annotations = pm.response.json().annotations;",
+													"",
+													"    pm.expect(annotations).to.have.property(\"Family Name Text Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Address 1 Text Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Address 2 Text Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Country Combo Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Gender List Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Height Formatted Field\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Driving License Check Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Language 1 Check Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Language 2 Check Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Language 3 Check Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Language 4 Check Box\").that.is.not.empty;",
+													"    pm.expect(annotations).to.have.property(\"Language 5 Check Box\").that.is.not.empty;",
+													"",
+													"    pm.expect(annotations).to.have.property(\"Favourite Colour List Box\").that.is.not.empty;",
+													"      ",
+													"});",
+													"",
+													"// the api should return valid response",
+													"pm.test('annotations should have all the valid data', () => {",
+													"    const annotations = pm.response.json().annotations;",
+													"    pm.expect(annotations[\"Address 1 Text Box\"]).to.include('Kathmandu');",
+													"    pm.expect(annotations[\"Address 2 Text Box\"]).to.include('adr2');",
+													"    pm.expect(annotations[\"Country Combo Box\"]).to.include('Austria');",
+													"    pm.expect(annotations[\"Gender List Box\"]).to.include('Woman');",
+													"    pm.expect(annotations[\"Height Formatted Field\"]).to.include('10.9');",
+													"    pm.expect(annotations[\"Driving License Check Box\"]).to.include('Yes');",
+													"    pm.expect(annotations[\"Language 1 Check Box\"]).to.include('Off');",
+													"    pm.expect(annotations[\"Language 2 Check Box\"]).to.include('Yes');",
+													"    pm.expect(annotations[\"Language 3 Check Box\"]).to.include('Off');",
+													"    pm.expect(annotations[\"Language 4 Check Box\"]).to.include('Off');",
+													"    pm.expect(annotations[\"Language 5 Check Box\"]).to.include('Off')",
+													"",
+													"    pm.expect(annotations[\"Favourite Colour List Box\"]).to.include('Red');",
+													"    ",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "pdf",
+													"type": "file",
+													"src": "./src/User story 3.pdf"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/upload/pdf",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"upload",
+												"pdf"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Negative Case",
+							"item": [
+								{
+									"name": "Should return validation response when submitted empty file",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"// the api should return 400 response",
+													"pm.test('Should return 400 response', () => {",
+													"    pm.response.to.have.status(400);",
+													" });",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "pdf",
+													"type": "file",
+													"src": "./src/User story 3-empty-fields.pdf"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/upload/pdf",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"upload",
+												"pdf"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Should return validation error when invalid payload sent",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"// the api should return 400 response",
+													"pm.test('Should return 400 response', () => {",
+													"    pm.response.to.have.status(400);",
+													" });",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "notapdf",
+													"type": "file",
+													"src": "./src/User story 3.pdf"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/upload/pdf",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"upload",
+												"pdf"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Should not accept files other than PDF",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"// the api should return 400 response",
+													"pm.test('Should return 400 response', () => {",
+													"    pm.response.to.have.status(400);",
+													" });",
+													"",
+													"// the api response message should be `Invalid file format, only .pdf file is allowed.`",
+													"pm.test('should respond with Invalid file format, only .pdf file is allowed.', () => {",
+													"    pm.expect(pm.response.text()).to.include('Invalid file format, only .pdf file is allowed.');",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "pdf",
+													"type": "file",
+													"src": "./src/User story 3-empty-fields (copy).invalidformat"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/upload/pdf",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"upload",
+												"pdf"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Upload File",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/upload/pdf",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"upload",
+								"pdf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Story 2",
+			"item": [
+				{
+					"name": "Positive Scenarios",
+					"item": [
+						{
+							"name": "Get Encoded text from 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"// Get the base64 encoded response body\r",
+											"const responseBodyBase64 = response.base64text;\r",
+											"\r",
+											"// Decode the base64 encoded response body\r",
+											"let parsedResponse;\r",
+											"try {\r",
+											"    parsedResponse = atob(responseBodyBase64);\r",
+											"} catch (error) {\r",
+											"    // If parsing fails, log an error and fail the test\r",
+											"    console.error(\"Failed to parse response as JSON:\", error);\r",
+											"    pm.test(\"Verify response is in JSON format\", function () {\r",
+											"        pm.expect(parsedResponse).to.be.undefined;\r",
+											"    });\r",
+											"}\r",
+											"parsedResponse = JSON.parse(parsedResponse);\r",
+											"\r",
+											"// Assert that the parsed response is not undefined\r",
+											"pm.test(\"Verify response is in JSON format\", function () {\r",
+											"    pm.expect(parsedResponse).to.not.be.undefined;\r",
+											"});\r",
+											"\r",
+											"// Assert required fields in each object of the array\r",
+											"pm.test(\"Verify all fields are present and non-empty\", function () {\r",
+											"    console.log(parsedResponse.length);\r",
+											"     for (let i = 0; i < parsedResponse.length; i++) {\r",
+											"        const obj = parsedResponse[i];\r",
+											"        pm.test(`Verify informration of Patient ${i + 1} have all of the required fields`, function () {\r",
+											"            // Verify that all fields are present and have non-empty values\r",
+											"            pm.expect(obj).to.have.property(\" Plan Type\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's I.D. Number\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Last Name\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's First Name\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Middle Initial\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Birth Date\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's Last Name\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's First Name\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Addresses\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's City\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's State\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Zip Code\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Telephone\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Patient Relationship to Insured\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's Address\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's City\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's State\").that.is.not.empty;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's Zipcode\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Insurance Name\").that.is.not.empty;    \r",
+											"        });\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// Regular expression for MM/DD/YYYY format\r",
+											"const dateFormatRegex = /^(0[1-9]|1[0-2])\\/(0[1-9]|1\\d|2\\d|3[01])\\/\\d{4}$/; \r",
+											"// Assert the date is in defined format\r",
+											"pm.test(\"Verify that All Patient's Birth Date is in MM/DD/YYYY format\", function () {\r",
+											"    console.log(parsedResponse.length);\r",
+											"     for (let i = 0; i < parsedResponse.length; i++) {\r",
+											"        const obj = parsedResponse[i];\r",
+											"        pm.test(`Verify that Birth date of Patient ${i + 1} is in MM/DD/YYYY format`, function () {\r",
+											"            // Verify that all fields are present and have non-empty values\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Birth Date\").that.matches(dateFormatRegex);\r",
+											"         \r",
+											"        });\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/csv/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"csv",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Encoded text from 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"// Get the base64 encoded response body\r",
+											"const responseBodyBase64 = response.base64text;\r",
+											"\r",
+											"// Decode the base64 encoded response body\r",
+											"let parsedResponse;\r",
+											"try {\r",
+											"    parsedResponse = atob(responseBodyBase64);\r",
+											"} catch (error) {\r",
+											"    // If parsing fails, log an error and fail the test\r",
+											"    console.error(\"Failed to parse response as JSON:\", error);\r",
+											"    pm.test(\"Verify response is in JSON format\", function () {\r",
+											"        pm.expect(parsedResponse).to.be.undefined;\r",
+											"    });\r",
+											"}\r",
+											"parsedResponse = JSON.parse(parsedResponse);\r",
+											"console.log(parsedResponse);\r",
+											"\r",
+											"// Assert that the parsed response is not undefined\r",
+											"pm.test(\"Verify response is in JSON format\", function () {\r",
+											"    pm.expect(parsedResponse).to.not.be.undefined;\r",
+											"});\r",
+											"\r",
+											"// Verify required fields in each object of the array\r",
+											"pm.test(\"Verify all fields are present and non-empty\", function () {\r",
+											"    console.log(parsedResponse.length);\r",
+											"     for (let i = 0; i < parsedResponse.length; i++) {\r",
+											"        const obj = parsedResponse[i];\r",
+											"        pm.test(`Verify informration of Patient ${i + 1} have all of the required fields`, function () {\r",
+											"            // Verify that all fields are present and have non-empty values\r",
+											"            pm.expect(obj).to.have.property(\" Plan Type\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's I.D. Number\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Last Name\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's First Names\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Middle Initial\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Birth Date\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's Last Name\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's First Name\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Address\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's City\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's State\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Zip Code\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Telephone\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Patient Relationship to Insured\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's Address\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's City\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Charges\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Insured's Zipcode\").that.is.not.null;\r",
+											"            pm.expect(obj).to.have.property(\"Insurance Name\").that.is.not.null;    \r",
+											"        });\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// Regular expression for MM/DD/YYYY format\r",
+											"const dateFormatRegex = /^(0[1-9]|1[0-2])\\/(0[1-9]|1\\d|2\\d|3[01])\\/\\d{4}$/; \r",
+											"// Assert the date is in defined format\r",
+											"pm.test(\"Verify that All Patient's Birth Date is in MM/DD/YYYY format\", function () {\r",
+											"    console.log(parsedResponse.length);\r",
+											"     for (let i = 0; i < parsedResponse.length; i++) {\r",
+											"        const obj = parsedResponse[i];\r",
+											"        pm.test(`Verify that Birth date of Patient ${i + 1} is in MM/DD/YYYY format`, function () {\r",
+											"            // Verify that all fields are present and have non-empty values\r",
+											"            pm.expect(obj).to.have.property(\"Patient's Birth Date\").that.matches(dateFormatRegex);\r",
+											"         \r",
+											"        });\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/csv/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"csv",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User Story 1",
+			"item": [
+				{
+					"name": "Positive scenario",
+					"item": [
+						{
+							"name": "Validate that user should be able to upload excel file in .xlsx format",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verify that the status code is 200//\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"//Verify the response time is less than 4000+ ms//\r",
+											"pm.test(\"Response time is less than 4000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});\r",
+											"\r",
+											"//Success message should be correct//\r",
+											"pm.test('Success message should be correct', () => {\r",
+											"    pm.expect(pm.response.json().message).to.include('File uploaded successfully.');\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "excel",
+											"type": "file",
+											"src": "./src/User story 1.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/upload/excel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"upload",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative scenario",
+					"item": [
+						{
+							"name": "Validate that user should not be able to upload xlsx.ods file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verify that the status code is 400//\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"//Verify the response time is less than 4000+ ms//\r",
+											"pm.test(\"Response time is less than 4000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});\r",
+											"\r",
+											"//Error message should be correct//\r",
+											"pm.test('Error message should be correct', () => {\r",
+											"    console.log (pm.response)\r",
+											"    pm.expect(pm.response).to.included('Invalid file format, only xls, and xlsx file are allowed.');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "excel",
+											"type": "file",
+											"src": "./src/User story 1.xlsx.ods"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/upload/excel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"upload",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate that user should not be able to send empty file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verify that the status code is 400//\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"//Verify the response time is less than 4000+ ms//\r",
+											"pm.test(\"Response time is less than 4000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});\r",
+											"\r",
+											"//Error message should be correct//\r",
+											"pm.test('Error message should be correct', () => {\r",
+											"    console.log (pm.response)\r",
+											"    pm.expect(pm.response).to.included('Invalid file format.');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "excel",
+											"type": "file",
+											"src": "./src/User story 1 (2).xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/upload/excel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"upload",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate when Employee Email is not added",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verify that the status code is 400//\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"//Verify the response time is less than 4000+ ms//\r",
+											"pm.test(\"Response time is less than 4000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});\r",
+											"\r",
+											"//Error message should be correct//\r",
+											"pm.test('Error message should be correct', () => {\r",
+											"     pm.expect(pm.response.json().message).to.include('Email Address  header or value is missing.');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "excel",
+											"type": "file",
+											"src": "./src/User story 1 (1).xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/upload/excel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"upload",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate when Employee Name is not added",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verify that the status code is 400//\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"//Verify the response time is less than 4000+ ms//\r",
+											"pm.test(\"Response time is less than 4000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});\r",
+											"\r",
+											"//Error message should be correct//\r",
+											"pm.test('Error message should be correct', () => {\r",
+											"     pm.expect(pm.response.json().message).to.include('Employee name  header or value is missing.');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "excel",
+											"type": "file",
+											"src": "./src/User story 1 (3).xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/upload/excel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"upload",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate when Designation is not added",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verify that the status code is 400//\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"//Verify the response time is less than 4000+ ms//\r",
+											"pm.test(\"Response time is less than 4000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});\r",
+											"\r",
+											"//Error message should be correct//\r",
+											"pm.test('Error message should be correct', () => {\r",
+											"     pm.expect(pm.response.json().message).to.include('Designation  header or value is missing.');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "excel",
+											"type": "file",
+											"src": "./src/User story 1 (4).xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/upload/excel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"upload",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate when data type for allocation is text",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verify that the status code is 400//\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"//Verify the response time is less than 4000+ ms//\r",
+											"pm.test(\"Response time is less than 4000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});\r",
+											"\r",
+											"//Error message should be correct//\r",
+											"pm.test('Error message should be correct', () => {\r",
+											"     pm.expect(pm.response.json().message).to.include('Allocation should be of type number');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "excel",
+											"type": "file",
+											"src": "./src/User story 1 (5).xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/upload/excel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"upload",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate if the possible values for designation is invalid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Verify that the status code is 400//\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"//Verify the response time is less than 4000+ ms//\r",
+											"pm.test(\"Response time is less than 4000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});\r",
+											"\r",
+											"//Error message should be correct//\r",
+											"pm.test('Error message should be correct', () => {\r",
+											"     pm.expect(pm.response.json().message).to.include('Designation should be \"Engineering” and “Management”.');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "excel",
+											"type": "file",
+											"src": "./src/User story 1 (6).xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/upload/excel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"upload",
+										"excel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"//Setting sadFlag initially false\r",
+					"pm.collectionVariables.set('sadFlag', false);\r",
+					"\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"const check = pm.collectionVariables.get('sadFlag');\r",
+					"if (check == false) {\r",
+					"    if (pm.request.method == \"GET\") {\r",
+					"        pm.test(\"Status code is 200 \", function () {\r",
+					"            pm.response.to.have.status(200);\r",
+					"        });\r",
+					"    }\r",
+					"\r",
+					"    else if (pm.request.method == \"POST\") {\r",
+					"        pm.test(\"Status code is 201\", function () {\r",
+					"            pm.response.to.have.status(201);\r",
+					"        });\r",
+					"    }\r",
+					"    else if (pm.request.method == \"DELETE\") {\r",
+					"        pm.test(\"Status code is 200\", function () {\r",
+					"            pm.response.to.include;\r",
+					"        });\r",
+					"    }\r",
+					"    else if (pm.request.method == \"PUT\") {\r",
+					"        pm.test(\"Status code is 200\", function () {\r",
+					"            pm.response.to.have.status(200);\r",
+					"        });\r",
+					"    }\r",
+					"    else if (pm.request.method == \"PATCH\") {\r",
+					"        pm.test(\"Status code is 200\", function () {\r",
+					"            pm.response.to.have.status(200);\r",
+					"        });\r",
+					"    }\r",
+					"}\r",
+					"else\r",
+					"{\r",
+					"    if (pm.request.method == \"POST\") {\r",
+					"        if (pm.response.code == 400)\r",
+					"        {\r",
+					"            pm.test(\"Status code is 400 for invalid request sent to server\", function () {\r",
+					"             pm.response.to.have.status(400)\r",
+					"            });\r",
+					"        }\r",
+					"        else if (pm.response.code == 422)\r",
+					"        {\r",
+					"            pm.test(\"Status code is 422 for duplicate entity \", function () {\r",
+					"             pmresponse.to.have.status(422)\r",
+					"            });\r",
+					"        }\r",
+					"        \r",
+					"    }\r",
+					"    else if (pm.request.method == \"GET\") {\r",
+					"        if (pm.response.code == 401)\r",
+					"        {\r",
+					"            pm.test(\"Status code is 401\", function () {\r",
+					"            pm.response.to.have.status(401);\r",
+					"        });\r",
+					"        }\r",
+					"        else\r",
+					"        {\r",
+					"            pm.test(\"Status code is 400\", function () {\r",
+					"            pm.response.to.have.status(400);\r",
+					"        });\r",
+					"        }\r",
+					"        \r",
+					"    }\r",
+					"}\r",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "sadFlag",
+			"value": ""
+		}
+	]
+}

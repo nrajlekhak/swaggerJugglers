@@ -1,0 +1,49 @@
+# Name of the GitHub Actions
+name: Continuous Test using Postman for Eligibility Check
+
+# Set the actions that triggers the workflow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      # Checks out the repo, so the job can access it.
+      - uses: actions/checkout@v2
+
+      # Install Node on the runner
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+
+      # Install newman globally, the reporter for slack and install the html extra reporter
+      - name: Install newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-slackmsg
+          npm install -g newman-reporter-htmlextra
+
+      # Create directory to upload test results
+      - name: Make Directory for Test Results
+        run: mkdir -p testArtifacts
+
+      - name: Get current dates
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Run Postman Collection
+        run: |
+            newman  run ${{secrets.COLLECTION_URL}} -e ${{secrets.DEV_ENVIRONMENT_URL}}  --suppress-exit-code -x -r slackmsg,htmlextra --reporter-htmlextra-export testArtifacts/htmlreport.html --reporter-slackmsg-webhookurl ${{secrets.SLACK_WEBHOOK_URL}}
+          
+      # Upload the reports to TestArtifact directory
+      - name: Output the results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Reports Ability
+          path: testArtifacts
